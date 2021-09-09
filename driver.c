@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 		return 0;
 
 	} else if(argc >= 2) {
-		if(strcmp(argv[1], "-h") == 1 || strcmp(argv[1], "-t") == 1) {
+		if(strcmp(argv[1], "-h") != 0 || strcmp(argv[1], "-t") != 0) {
 			fileName = argv[1];
 			if(addmsg(data, fileName, 0) == -1) {
 				exit(0);
