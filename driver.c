@@ -1,8 +1,13 @@
 /*
- * driver.c by Pascal Odijk 8/30/2021
+ * driver.c by Pascal Odijk 9/8/2021
  * P1 CMPSCI 4760 Prof. Bhatia
  *
- * Descr...
+ * This file handles the methods of invoking the program driver. Based of the invokation method, the program will then pass the output file name to the functions within 
+ * the static library liblog.a. Invocation methods include:
+ * 	./driver (no argument) -- prints log to messages.log
+ * 	./driver -h -- prints usage message
+ * 	./driver -t sec -- prints log to messages.log on average every sec seconds
+ * 	./driver [file name] -- prints log to user specified file name
  */
 
 #include <stdio.h>
@@ -11,39 +16,57 @@
 int main(int argc, char *argv[]) {
 	
 	int opt, sec; // Holds argument passed through command line
-	FILE *fp;
 	char *fileName; // Holds file name
+	data_t data;
 
-	printf("argv[1]: %s\n", argv[1]);
-
-	if(argc == 1) {
-
+	if(argc < 2) {
 		fileName = "messages.log";
-		printf("filename: %s\n", fileName); 
-
-	} else if(strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "-t") == 0) {
-	
-		while((opt = getopt(argc, argv, "t:h")) != -1) {
-			switch(opt) {
-				case 'h':
-					printf("This program takes 3 different arguments\n");
-					printf("./driver -h: prints this usage/help message\n");
-					printf("./driver -t [sec]: prints the messages, on average, every sec seconds\n");
-					printf("./driver [logfile]: logfile is interpreted as the specified file name to print messages to\n");
-					exit(0);
-
-				case 't':
-					printf("For time ... implement later\n");
-					sec = atoi(argv[2]);
-					printf("Sec = %i\n", sec);
-					break;
-
-				default: 
-					break;
-			}
+	       	if(addmsg(data, fileName, 0) == -1) {
+			exit(0);
 		}
-	} else if(argc > 1) {
-		fileName = argv[1];
-		printf("filename: %s\n", fileName);		
-	}	
+
+		return 0;
+
+	} else if(argc >= 2) {
+		if(strcmp(argv[1], "-h") == 1 || strcmp(argv[1], "-t") == 1) {
+			fileName = argv[1];
+			if(addmsg(data, fileName, 0) == -1) {
+				exit(0);
+			}
+
+			return 0;
+		}
+	}
+
+	while((opt = getopt(argc, argv, "th")) != -1) {
+		switch(opt) {
+			case 'h':
+				printf("This program takes 3 different arguments\n");
+				printf("./driver -h: prints this usage/help message\n");
+				printf("./driver -t [sec]: prints the messages, on average, every sec seconds\n");
+				printf("./driver [logfile]: logfile is interpreted as the specified file name to print messages to\n");
+				return 0;
+
+			case 't':
+				if(argc == 3) {
+					sec = atoi(argv[2]);
+					fileName = "messages.log";
+					if(addmsg(data, fileName, sec) == -1) {
+						exit(0);
+					}
+					break;
+				} else {
+					printf("Please specify seconds as an integer following -t\n");
+					printf("Usage: ./driver -t [sec]\n");
+					return 0;
+				}
+
+			default:
+			        printf("In default");	
+				// Invalid option
+				return 0;
+			}
+	}
+	
+	return 0;
 }

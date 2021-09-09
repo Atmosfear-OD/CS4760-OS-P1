@@ -1,5 +1,5 @@
 /*
- * log.h Pascal Odijk 8/30/2021
+ * log.h Pascal Odijk 9/8/2021
  * P1 CMPSCI 4760 Prof. Bhatia
  *
  * Modified from book UNIX systems prog by Robbins/Robbins.
@@ -15,7 +15,9 @@ typedef struct data_struct {
 	char *string;	// Message string
 } data_t;
 
-int addmsg(data_t data);
-void clearlog();
-char *getlog();
-int savelog(char *filename);
+int addmsg(data_t data, char *ofile, int sec);
+void addTime(data_t data);
+char addType(data_t data);
+void clearlog(data_t data);
+char *getlog(data_t data);
+int savelog(data_t data, char *file);
