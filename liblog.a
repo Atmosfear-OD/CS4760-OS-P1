@@ -2,8 +2,7 @@
 // P1 CMPSCI 4760 Prof. Bhatia
 //
 // This file contains the helper functions for the driver program. Based off the method of invocation from driver.c, this libary opens the output file and input file (called input.txt)
-// then read the messages line by line from the input file and prints it to the output file with a randomly generated message type (either info/error/warning/fatal). If fatal message, the 
-// message is logged to savelog.log. Along with the message and message type, the current time is also printed unless -t was specified in which case the messages are printed on average 
+// then read the messages line by line from the input file and prints it to the output file with a randomly generated message type (either info/error/warning/fatal). Along with the message and message type, the current time is also printed unless -t was specified in which case the messages are printed on average 
 // every sec seconds.  
 
 #include <stdlib.h>
@@ -45,16 +44,6 @@ int addmsg(data_t data, char *ofile, int sec) {
 		data.type = addType(data); // Add message type
 		getlog(data);		   // Add message string
 		data.string = sptr;
-		
-		// Check if fatal type, print to savelog
-		if(data.type == 'F') {
-			file = "savelog.log";
-			fclose(ofptr);
-			if((ofptr = fopen(file, "w")) == NULL) {
-				perror("driver: Error: ");
-				return -1;
-			}
-		}
 		
 		// If s > 0, then wait before printing message to log
 		if(s > 0) {
@@ -133,9 +122,9 @@ int savelog(data_t data, char *file) {
 	fprintf(ofptr, "Message Type: %c\n", data.type);
 	fprintf(ofptr, "Message String: %s\n\n", data.string);
 	
-	// If fatal message, stop program
+	// If fatal message, exit program
 	if(data.type == 'F') {
-		return -1;
+		exit(1);
 	}
 
 	clearlog(data); // Free up memory
