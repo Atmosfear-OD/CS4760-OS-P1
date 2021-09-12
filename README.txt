@@ -16,10 +16,8 @@ Methods of invocation:
 --------------------------------------------------------
 Problems I encountered:
 1. I may have not used perror enough, but I used it where I though necessary
-2. When encountering a fatal message, I believe that the instructions stated that you should print it to a different output file named savelog, so that's what I did
-3. The program may create an additional message at the end, not sure why its doing that
-4. I'm not sure if I implemented the -t sec option correctly...it was a bit confusing
-5. I went a couple days without commiting to git repo because I forgot
+2. The program may create an additional message at the end, not sure why its doing that
+3. I'm not sure if I implemented the -t sec option correctly...it was a bit confusing
 ---------------------------------------------------------
 Github version control web address:
 https://github.com/Atmosfear-OD/CS4760-OS-P1
