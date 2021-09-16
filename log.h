@@ -7,6 +7,9 @@
  * error (ERROR), or fatal (FATAL).
  */
 
+#ifndef LOG_H
+#define LOG_H
+
 #include <time.h>
 
 typedef struct data_struct {
@@ -21,3 +24,5 @@ char addType(data_t data);
 void clearlog(data_t data);
 char *getlog(data_t data);
 int savelog(data_t data, char *file);
+
+#endif
